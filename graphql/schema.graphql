@@ -1,8 +1,14 @@
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
+
 "Indicates what fields are available at the top level of a query operation."
 type Query {
+
+    me: User @auth
+
+    hello: String!
+
     "Find a single user by an identifying attribute."
     user(
       "Search by primary key."
@@ -17,7 +23,46 @@ type Query {
       "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
       name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
+
+    users: [User!]! @all
+
+    posts: [Post!]! @all
+
+    topics: [Topic!]! @all
+
 }
+
+type Mutation {
+    createPost(input: PostInput! @spread): Post! @create
+
+    deletePost(id: ID! @whereKey): Post @delete
+}
+
+type Post {
+    id: ID!
+    title: String!
+    content: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    topics: [Topic!]! @belongsToMany
+}
+
+input PostInput {
+    title: String!
+    content: String!
+    user_id: ID!
+}
+
+type Topic {
+    id: ID!
+    title: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    posts: [Post!]! @belongsToMany
+}
+
 
 "Account of a person who utilizes this application."
 type User {
