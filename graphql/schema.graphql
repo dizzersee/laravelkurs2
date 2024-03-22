@@ -6,6 +6,8 @@ type Query {
 
     hello: String!
 
+    greet(name: String!): String!
+
     "Find a single user by an identifying attribute."
     user(
       "Search by primary key."
