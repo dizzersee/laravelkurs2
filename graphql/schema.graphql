@@ -4,7 +4,9 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "Indicates what fields are available at the top level of a query operation."
 type Query {
 
-    hello: String!
+    me: User @auth
+
+    hello: String! @guard
 
     greet(name: String!): String!
 
@@ -39,7 +41,9 @@ type Mutation {
     updatePost(
         id: ID! @eq
         input: UpdatePostInput! @spread
-    ): Post @update
+    ): Post
+        @canFind(ability: "update", find: "id")
+        @update
 
     deletePost(
         id: ID! @eq
