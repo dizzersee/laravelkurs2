@@ -78,6 +78,8 @@ type User {
     updated_at: DateTime!
 
     posts: [Post!]! @hasMany
+
+    user: Profile! @hasOne
 }
 
 type Post {
@@ -87,6 +89,7 @@ type Post {
     created_at: DateTime!
     updated_at: DateTime!
     user: User! @belongsTo
+    topics: [Topic!]! @belongsToMany
 }
 
 type Topic {
@@ -95,4 +98,13 @@ type Topic {
     description: String!
     created_at: DateTime!
     updated_at: DateTime!
+    posts: [Post!]! @belongsToMany
+}
+
+type Profile {
+    id: ID!
+    description: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User! @belongsTo
 }
