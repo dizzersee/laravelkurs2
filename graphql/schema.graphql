@@ -33,11 +33,21 @@ type Query {
 
 type Mutation {
     createPost(
-        input: PostInput! @spread
+        input: CreatePostInput! @spread
     ): Post @create
+
+    updatePost(
+        id: ID! @eq
+        input: UpdatePostInput! @spread
+    ): Post @update
 }
 
-input PostInput {
+input UpdatePostInput {
+    title: String @rules(apply: ["string", "max:255"])
+    content: String @rules(apply: ["string"])
+}
+
+input CreatePostInput {
     title: String! @rules(apply: ["required", "string", "max:255"])
     content: String! @rules(apply: ["required", "string"]),
     user_id: ID! @rules(apply: ["required", "exists:users,id"])
