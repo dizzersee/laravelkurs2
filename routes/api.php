@@ -32,3 +32,4 @@ Route::get('protectedroute', function () {
     }
 
 })->middleware('auth:api');
+
