@@ -19,3 +19,8 @@ Route::get('/tests', [App\Http\Controllers\PostController::class, 'tests']);
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index']);
 
 Route::redirect('/here', '/there', 301);
+
+Route::get("/jobtest", function () {
+    dispatch(new App\Jobs\LogSomethingJob());
+    return "Job dispatched!";
+});
