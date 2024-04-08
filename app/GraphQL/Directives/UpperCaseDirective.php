@@ -10,7 +10,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 final class UpperCaseDirective extends BaseDirective implements FieldMiddleware
 {
-    // TODO implement the directive https://lighthouse-php.com/master/custom-directives/getting-started.html
 
     public static function definition(): string
     {
