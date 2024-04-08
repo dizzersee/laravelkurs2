@@ -13,6 +13,13 @@
         <p>{{ $post->created_at }}</p>
         <p>{{ $post->content }}</p>
 
+        <h3>Comments</h3>
+        @foreach($post->comments as $comment)
+            <div>
+                <p>{{ $comment->content }}</p>
+            </div>
+        @endforeach
     </div>
+
 
 @endsection

@@ -4,11 +4,11 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "Indicates what fields are available at the top level of a query operation."
 type Query {
 
+    greet(name: String!): String!
+
     me: User @auth
 
     hello: String! @guard
-
-    greet(name: String!): String!
 
     "Find a single user by an identifying attribute."
     user(
@@ -48,6 +48,14 @@ type Mutation {
     deletePost(
         id: ID! @eq
     ): Post @delete
+
+    createComment(
+        input: CreateCommentInput! @spread
+    ): Comment @guard
+
+    deleteComment(
+        id: ID! @eq
+    ): Comment @delete @guard @canFind(ability: "delete", find: "id")
 }
 
 input UpdatePostInput {
@@ -59,6 +67,12 @@ input CreatePostInput {
     title: String! @rules(apply: ["required", "string", "max:255"])
     content: String! @rules(apply: ["required", "string"]),
     user_id: ID! @rules(apply: ["required", "exists:users,id"])
+}
+
+input CreateCommentInput {
+    content: String! @rules(apply: ["required", "string"]),
+    post_id: ID! @rules(apply: ["required", "exists:posts,id"])
+    user_id: ID @rules(apply: [ "exists:users,id"])
 }
 
 "Account of a person who utilizes this application."
@@ -94,6 +108,7 @@ type Post {
     updated_at: DateTime!
     user: User! @belongsTo
     topics: [Topic!]! @belongsToMany
+    comments: [Comment!]! @hasMany
 }
 
 type Topic {
@@ -111,4 +126,13 @@ type Profile {
     created_at: DateTime!
     updated_at: DateTime!
     user: User! @belongsTo
+}
+
+type Comment {
+    id: ID!
+    content: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User! @belongsTo
+    post: Post! @belongsTo
 }
