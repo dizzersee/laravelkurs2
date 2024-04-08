@@ -2,6 +2,7 @@
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 directive @upperCase on FIELD_DEFINITION
 directive @lowerCase on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+directive @addGuestTitleIfNeeded on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
 
 "Indicates what fields are available at the top level of a query operation."
 type Query {
@@ -68,7 +69,7 @@ input UpdatePostInput {
 }
 
 input CreatePostInput {
-    title: String! @rules(apply: ["required", "string", "max:255"])
+    title: String! @rules(apply: ["required", "string", "max:255"]) @addGuestTitleIfNeeded
     content: String! @rules(apply: ["required", "string"]),
     user_id: ID! @rules(apply: ["required", "exists:users,id"])
 }
