@@ -17,7 +17,6 @@ class PostController extends Controller
 
     public function postCreatePost(Request $request)
     {
-
         $request->validate([
             'title' => 'required|min:5|max:'.Post::MAX_TITLE_LENGTH.'|string',
             'content' => 'required|min:10|max:'.Post::MAX_CONTENT_LENGTH.'|string',

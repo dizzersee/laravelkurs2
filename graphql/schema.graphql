@@ -94,6 +94,7 @@ type Post {
     updated_at: DateTime!
     user: User! @belongsTo
     topics: [Topic!]! @belongsToMany
+    comments: [Comment!]! @hasMany
 }
 
 type Topic {
@@ -111,4 +112,14 @@ type Profile {
     created_at: DateTime!
     updated_at: DateTime!
     user: User! @belongsTo
+}
+
+type Comment {
+    id: ID!
+    content: String!
+    title: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User! @belongsTo
+    post: Post! @belongsTo
 }
