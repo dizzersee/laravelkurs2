@@ -21,10 +21,12 @@ GRAPHQL;
     {
         $fieldValue->wrapResolver(fn (callable $resolver): \Closure => function (mixed $root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($fieldValue, $resolver) {
 
+            $userId = auth()->id();
+
             $result = $resolver($root, $args, $context, $resolveInfo);
 
             if (is_string($result)) {
-                return strtoupper($result);
+                return strtoupper($result) . " (User ID: $userId)";
             }
 
             return $result;
