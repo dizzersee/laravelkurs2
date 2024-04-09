@@ -2,6 +2,7 @@
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 directive @upperCase on FIELD_DEFINITION
 directive @lowerCase on ARGUMENT_DEFINITION
+directive @addGuestTitleIfGuest on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
 
 "Indicates what fields are available at the top level of a query operation."
 type Query {
@@ -30,7 +31,6 @@ type Query {
       "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
       name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
-
 
     topics: [Topic!]! @all
 }
@@ -62,7 +62,7 @@ input UpdatePostInput {
 }
 
 input CreatePostInput {
-    title: String! @rules(apply: ["required", "string", "max:255"])
+    title: String! @rules(apply: ["required", "string", "max:255"]) @addGuestTitleIfGuest
     content: String! @rules(apply: ["required", "string"]),
     user_id: ID! @rules(apply: ["required", "exists:users,id"])
 }
