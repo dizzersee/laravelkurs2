@@ -10,7 +10,7 @@ type Query {
 
     hello: String! @guard @upperCase
 
-    greet(name: String!): String!
+    greet(name: String! @lowerCase): String!
 
     "Find a single user by an identifying attribute."
     user(
