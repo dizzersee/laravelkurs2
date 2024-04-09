@@ -4,6 +4,25 @@ namespace App\GraphQL\Mutations;
 
 use App\Models\Comment;
 
+/*
+
+mutation {
+  createComment(input: {
+    content:"Test content",
+    title: "Test title",
+    post_id: 2
+  }) {
+    id
+    title
+    created_at
+    user {
+      id
+      name
+    }
+  }
+}
+
+ */
 final readonly class CreateComment
 {
     /** @param  array{}  $args */
