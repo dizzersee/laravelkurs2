@@ -48,6 +48,10 @@ type Mutation {
     deletePost(
         id: ID! @eq
     ): Post @delete
+
+    createComment(
+        input: CreateCommentInput! @spread
+    ): Comment @guard
 }
 
 input UpdatePostInput {
@@ -59,6 +63,12 @@ input CreatePostInput {
     title: String! @rules(apply: ["required", "string", "max:255"])
     content: String! @rules(apply: ["required", "string"]),
     user_id: ID! @rules(apply: ["required", "exists:users,id"])
+}
+
+input CreateCommentInput {
+    content: String! @rules(apply: ["required", "string"])
+    title: String! @rules(apply: ["required", "string"])
+    post_id: ID! @rules(apply: ["required", "exists:posts,id"])
 }
 
 "Account of a person who utilizes this application."
